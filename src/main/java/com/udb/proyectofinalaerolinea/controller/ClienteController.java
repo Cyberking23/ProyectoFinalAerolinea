@@ -10,13 +10,36 @@ public class ClienteController {
     @GetMapping("/VueloCliente")
     public String vueloCliente(Model model) {
         model.addAttribute("titulo", "Vuelos del Cliente");
-        // 👇 OJO: debe coincidir con la carpeta y nombre exactos
         return "Cliente/VueloCliente";
     }
     @GetMapping("/VerListadoVuelos")
     public String VerListadoVuelos(Model model) {
         model.addAttribute("titulo", "Vuelos del Cliente");
-        // 👇 OJO: debe coincidir con la carpeta y nombre exactos
         return "Cliente/VerListadoVuelos";
+    }
+    @GetMapping("/InsertarDatosComprador")
+    public String InsertarDatosComprador(Model model) {
+        model.addAttribute("titulo", "Vuelos del Cliente");
+        return "Cliente/InsertarDatosComprador";
+    }
+    @GetMapping("/ConfirmacionVuelo")
+    public String VerificacionInformacionVuelo(Model model) {
+        model.addAttribute("titulo", "Vuelos del Cliente");
+        return "Cliente/ConfirmacionVuelo";
+    }
+    @GetMapping("/MetodoPago")
+    public String MetodoPago(Model model) {
+        model.addAttribute("titulo", "Vuelos del Cliente");
+        return "Cliente/MetodoPago";
+    }
+    @GetMapping("/CancelacionVuelo")
+    public String CancelacionVuelo(Model model) {
+        model.addAttribute("titulo", "Vuelos del Cliente");
+        return "Cliente/CancelacionVuelo";
+    }
+    @GetMapping("/Reclamo")
+    public String Reclamo(Model model) {
+        model.addAttribute("titulo", "Vuelos del Cliente");
+        return "Cliente/Reclamo";
     }
 }

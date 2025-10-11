@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vuelos Disponibles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 font-sans">
+
+<!-- 🔹 Navbar -->
+<header class="flex justify-between items-center px-10 py-4 bg-white shadow-md">
+    <div class="flex items-center space-x-2">
+        <img th:src="@{/img/logo.png}" alt="Logo" class="h-6">
+    </div>
+
+    <nav class="flex space-x-6 text-gray-700 font-medium">
+        <a href="#" class="hover:text-blue-600">Reservas</a>
+        <a href="#" class="hover:text-blue-600">Ofertas y destinos</a>
+        <a href="#" class="hover:text-blue-600">Información y ayuda</a>
+        <a href="#" class="hover:text-blue-600">Viajes</a>
+    </nav>
+
+    <a href="#" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full font-semibold">
+        Reservar
+    </a>
+</header>
+
+<!-- 🔹 Título -->
+<section class="text-center mt-10 mb-8">
+    <h1 class="text-2xl font-bold text-gray-800">El Salvador - Los Ángeles</h1>
+</section>
+
+<!-- 🔹 Tabla de vuelos -->
+<main class="max-w-5xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+    <table class="w-full text-left border-collapse">
+        <thead class="bg-gray-100 border-b">
+        <tr class="text-gray-700 font-semibold text-sm">
+            <th class="p-4">Aerolínea</th>
+            <th class="p-4">Salida</th>
+            <th class="p-4">Duración</th>
+            <th class="p-4">Ruta</th>
+            <th class="p-4">Avión</th>
+            <th class="p-4">Precio</th>
+            <th class="p-4"></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <!-- Ejemplo de fila de vuelo -->
+        <tr class="border-b hover:bg-gray-50 transition">
+            <td class="p-4 flex items-center space-x-3">
+                <img th:src="@{/img/aerolinea.png}" alt="Aerolínea" class="h-8 w-8 rounded">
+                <span class="text-gray-800 font-medium">Avianca<br><span class="text-sm text-gray-500">ES-3366</span></span>
+            </td>
+            <td class="p-4 text-gray-700">23:00</td>
+            <td class="p-4 text-gray-700">11h 30m</td>
+            <td class="p-4 text-gray-700">ESA-LA</td>
+            <td class="p-4 text-gray-700">Boeing 737</td>
+            <td class="p-4 text-gray-900 font-semibold">$580</td>
+            <td class="p-4 text-center">
+                <a href="/ConfirmacionVuelo"
+                   class="bg-red-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-full font-medium">
+                    Cancelar
+                </a>
+            </td>
+        </tr>
+
+        <!-- Copias (puedes iterar desde backend con Thymeleaf) -->
+        <tr th:each="vuelo : ${vuelos}" class="border-b hover:bg-gray-50 transition">
+            <td class="p-4 flex items-center space-x-3">
+                <img th:src="@{/img/aerolinea.png}" alt="Logo" class="h-8 w-8 rounded">
+                <span class="text-gray-800 font-medium" th:text="${vuelo.aerolinea}">Aerolínea</span>
+            </td>
+            <td class="p-4 text-gray-700" th:text="${vuelo.horaSalida}">23:00</td>
+            <td class="p-4 text-gray-700" th:text="${vuelo.duracion}">11h30m</td>
+            <td class="p-4 text-gray-700" th:text="${vuelo.ruta}">ESA-LA</td>
+            <td class="p-4 text-gray-700" th:text="${vuelo.avion}">Boeing 737</td>
+            <td class="p-4 text-gray-900 font-semibold" th:text="${vuelo.precio}">$580</td>
+            <td class="p-4 text-center">
+                <a th:href="@{/ConfirmacionVuelo}"
+                   class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-full font-medium">
+                    Comprar
+                </a>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</main>
+
+<!-- 🔹 Footer -->
+<footer class="bg-black text-white mt-16 py-10">
+    <div class="max-w-6xl mx-auto grid grid-cols-4 gap-8 text-sm">
+        <div>
+            <h3 class="font-bold mb-3">Descubre y compra</h3>
+            <ul class="space-y-1">
+                <li>Vuelos Baratos</li>
+                <li>Reserva de Hotel</li>
+                <li>Alquiler de Autos</li>
+                <li>Tours y excursiones</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="font-bold mb-3">Sobre Nosotros</h3>
+            <ul class="space-y-1">
+                <li>Quiénes Somos</li>
+                <li>Trabaja con nosotros</li>
+                <li>Alianzas y Beneficios</li>
+                <li>Sostenibilidad</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="font-bold mb-3">Enlaces Rápidos</h3>
+            <ul class="space-y-1">
+                <li>Información Legal</li>
+                <li>Políticas de privacidad</li>
+                <li>Contrato de Transportes</li>
+                <li>Cambios y reembolsos</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="font-bold mb-3">Síguenos</h3>
+            <div class="flex space-x-3">
+                <a href="#" class="hover:text-blue-400">🐦</a>
+                <a href="#" class="hover:text-blue-600">📘</a>
+                <a href="#" class="hover:text-pink-500">📸</a>
+                <a href="#" class="hover:text-gray-300">💼</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método de Pago</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 font-sans">
+
+<!-- 🔹 Navbar -->
+<header class="flex justify-between items-center px-10 py-4 bg-white shadow-md">
+    <div class="flex items-center space-x-2">
+        <img th:src="@{/img/logo.png}" alt="Logo" class="h-6">
+    </div>
+
+    <nav class="flex space-x-6 text-gray-700 font-medium">
+        <a href="#" class="hover:text-blue-600">Reservas</a>
+        <a href="#" class="hover:text-blue-600">Ofertas y destinos</a>
+        <a href="#" class="hover:text-blue-600">Información y ayuda</a>
+        <a href="#" class="hover:text-blue-600">Viajes</a>
+    </nav>
+
+    <a href="#" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full font-semibold">
+        Reservar
+    </a>
+</header>
+
+<!-- 🔹 Contenido principal -->
+<main class="max-w-3xl mx-auto mt-12 bg-white p-10 rounded-lg shadow-lg">
+    <h1 class="text-center text-2xl font-bold text-gray-800 mb-8">Método de pago</h1>
+
+    <!-- 🔸 Botones de método -->
+    <div class="flex justify-center space-x-6 mb-8">
+        <button class="px-6 py-2 border border-gray-300 rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 font-semibold">
+            Débito/Crédito
+        </button>
+        <button class="px-6 py-2 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-200 font-semibold">
+            Transferencia
+        </button>
+    </div>
+
+    <!-- 🔸 Formulario -->
+    <form class="space-y-5">
+        <div>
+            <label class="block text-gray-700 font-medium mb-1">Número de tarjeta</label>
+            <input type="text" placeholder="XXXX XXXX XXXX XXXX"
+                   class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+
+        <div>
+            <label class="block text-gray-700 font-medium mb-1">Titular</label>
+            <input type="text" placeholder="Nombre del titular"
+                   class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+
+        <div class="grid grid-cols-3 gap-4">
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Fecha de Vencimiento</label>
+                <input type="text" placeholder="MM"
+                       class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">CVV</label>
+                <input type="password" placeholder="***"
+                       class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Año de caducidad</label>
+                <input type="text" placeholder="YYYY"
+                       class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+        </div>
+
+        <div class="text-center mt-8">
+            <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-semibold">
+                Realizar Pago
+            </button>
+        </div>
+    </form>
+</main>
+
+<!-- 🔹 Footer -->
+<footer class="bg-black text-white mt-16 py-10">
+    <div class="max-w-6xl mx-auto grid grid-cols-4 gap-8 text-sm">
+        <div>
+            <h3 class="font-bold mb-3">Descubre y compra</h3>
+            <ul class="space-y-1">
+                <li>Vuelos Baratos</li>
+                <li>Reserva de Hotel</li>
+                <li>Alquiler de Autos</li>
+                <li>Tours y excursiones</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="font-bold mb-3">Sobre Nosotros</h3>
+            <ul class="space-y-1">
+                <li>Quiénes Somos</li>
+                <li>Trabaja con nosotros</li>
+                <li>Alianzas y Beneficios</li>
+                <li>Sostenibilidad</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="font-bold mb-3">Enlaces Rápidos</h3>
+            <ul class="space-y-1">
+                <li>Información Legal</li>
+                <li>Políticas de privacidad</li>
+                <li>Contrato de Transportes</li>
+                <li>Cambios y reembolsos</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="font-bold mb-3">Síguenos</h3>
+            <div class="flex space-x-3">
+                <a href="#" class="hover:text-blue-400">🐦</a>
+                <a href="#" class="hover:text-blue-600">📘</a>
+                <a href="#" class="hover:text-pink-500">📸</a>
+                <a href="#" class="hover:text-gray-300">💼</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
