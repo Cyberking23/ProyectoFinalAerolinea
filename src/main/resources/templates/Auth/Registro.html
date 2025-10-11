@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Aerolínea</title>
+    <!-- ✅ Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fuente elegante -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Fondo degradado */
+        .bg-gradient {
+            background: linear-gradient(135deg, #cce3ff, #99ccff, #66b2ff);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient min-h-screen flex items-center justify-center">
+<div class="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md">
+    <!-- Logo -->
+    <div class="flex justify-center mb-6">
+        <img src="https://cdn-icons-png.flaticon.com/512/2554/2554973.png" alt="logo" class="w-12 h-12">
+    </div>
+
+    <!-- Título -->
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-2">Registro</h1>
+    <p class="text-center text-gray-600 mb-6">Ingresa los datos solicitados</p>
+
+    <!-- Mensajes -->
+    <div th:if="${error}" class="text-red-600 text-center text-sm mb-3" th:text="${error}"></div>
+    <div th:if="${mensaje}" class="text-green-600 text-center text-sm mb-3" th:text="${mensaje}"></div>
+
+    <!-- Formulario -->
+    <form action="/registro" method="post" class="space-y-4">
+        <div>
+            <input type="text" name="nombre" placeholder="Nombre"
+                   class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+        </div>
+        <div>
+            <input type="text" name="apellido" placeholder="Apellido"
+                   class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+        </div>
+        <div>
+            <input type="email" name="correo" placeholder="Correo Electrónico"
+                   class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+        </div>
+        <div>
+            <input type="password" name="contrasena" placeholder="Contraseña"
+                   class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+        </div>
+        <div>
+            <input type="password" name="repetir" placeholder="Repetir Contraseña"
+                   class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+        </div>
+
+        <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200">
+            Registrar
+        </button>
+    </form>
+
+    <p class="text-center text-gray-600 mt-6 text-sm">
+        ¿Ya tienes cuenta?
+        <a href="/" class="text-blue-600 hover:underline font-medium">Login</a>
+    </p>
+</div>
+</body>
+</html>
