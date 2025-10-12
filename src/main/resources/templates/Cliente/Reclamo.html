@@ -16,11 +16,14 @@
     </div>
 
     <nav class="flex space-x-6 text-gray-700 font-medium">
-        <a href="#" class="hover:text-blue-600">Reservas</a>
-        <a href="#" class="hover:text-blue-600">Ofertas y destinos</a>
-        <a href="#" class="hover:text-blue-600">Información y ayuda</a>
-        <a href="#" class="hover:text-blue-600">Viajes</a>
+        <a th:href="@{/VueloCliente}" class="hover:text-blue-600">Reservas</a>
+        <a th:href="@{/VerListadoVuelos}" class="hover:text-blue-600">Ofertas y destinos</a>
+        <a th:href="@{/InsertarDatosComprador}" class="hover:text-blue-600">Información y ayuda</a>
+        <a th:href="@{/MetodoPago}" class="hover:text-blue-600">Viajes</a>
+        <a th:href="@{/CancelacionVuelo}" class="hover:text-blue-600">Cancelaciones</a>
+        <a th:href="@{/Reclamo}" class="hover:text-blue-600">Reclamos</a>
     </nav>
+
 
     <a href="#" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full font-semibold">
         Reservar
