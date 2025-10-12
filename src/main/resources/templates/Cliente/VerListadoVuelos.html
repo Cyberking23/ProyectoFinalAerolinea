@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vuelos disponibles</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<!-- 🔷 Navbar -->
+<header class="flex justify-between items-center px-10 py-4 bg-white shadow-md">
+    <div class="flex items-center space-x-2">
+        <img th:src="@{/img/logo.png}" alt="Logo" class="h-6">
+    </div>
+
+    <nav class="flex space-x-6 text-gray-700 font-medium">
+        <a th:href="@{/VueloCliente}" class="hover:text-blue-600">Reservas</a>
+        <a th:href="@{/VerListadoVuelos}" class="hover:text-blue-600">Ofertas y destinos</a>
+        <a th:href="@{/InsertarDatosComprador}" class="hover:text-blue-600">Información y ayuda</a>
+        <a th:href="@{/MetodoPago}" class="hover:text-blue-600">Viajes</a>
+        <a th:href="@{/CancelacionVuelo}" class="hover:text-blue-600">Cancelaciones</a>
+        <a th:href="@{/Reclamo}" class="hover:text-blue-600">Reclamos</a>
+    </nav>
+
+
+    <a href="#" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full font-semibold">
+        Reservar
+    </a>
+</header>
+
+<!-- 🔷 Título de ruta -->
+<section class="text-center mt-10">
+    <h1 class="text-xl font-semibold text-gray-800">El Salvador - Los Ángeles</h1>
+</section>
+
+<!-- 🔷 Tabla de vuelos -->
+<section class="max-w-5xl mx-auto mt-10 space-y-4">
+    <!-- Ejemplo de vuelo (puedes iterar esto con Thymeleaf) -->
+    <div class="flex justify-between items-center bg-white p-5 rounded-lg shadow hover:shadow-lg transition">
+        <div class="flex items-center space-x-4">
+            <img th:src="@{/img/avion.png}" alt="Logo Aerolínea" class="h-12">
+            <div>
+                <h2 class="text-gray-900 font-semibold">AeroLatin</h2>
+                <p class="text-gray-500 text-sm">VUE-2346</p>
+            </div>
+        </div>
+        <div class="flex space-x-12 text-gray-700">
+            <div class="text-center">
+                <p class="font-medium">Salida</p>
+                <p>23:00</p>
+            </div>
+            <div class="text-center">
+                <p class="font-medium">Duración</p>
+                <p>11h 30m</p>
+            </div>
+            <div class="text-center">
+                <p class="font-medium">Ruta</p>
+                <p>ESA-LA</p>
+            </div>
+            <div class="text-center">
+                <p class="font-medium">Avión</p>
+                <p>Boeing 737</p>
+            </div>
+            <div class="text-center">
+                <p class="font-medium">Precio</p>
+                <p class="text-lg font-bold text-gray-800">$580</p>
+            </div>
+        </div>
+        <button class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 font-semibold">
+            Comprar
+        </button>
+    </div>
+
+    <!-- 🔁 Ejemplo para Thymeleaf -->
+    <!--
+    <div th:each="vuelo : ${vuelos}" class="flex justify-between items-center bg-white p-5 rounded-lg shadow">
+        <div class="flex items-center space-x-4">
+            <img th:src="@{/img/avion.png}" alt="Logo Aerolínea" class="h-12">
+            <div>
+                <h2 th:text="${vuelo.aerolinea}" class="font-semibold"></h2>
+                <p th:text="${vuelo.codigo}" class="text-gray-500 text-sm"></p>
+            </div>
+        </div>
+        <div class="flex space-x-12 text-gray-700">
+            <div class="text-center">
+                <p class="font-medium">Salida</p>
+                <p th:text="${vuelo.salida}"></p>
+            </div>
+            <div class="text-center">
+                <p class="font-medium">Duración</p>
+                <p th:text="${vuelo.duracion}"></p>
+            </div>
+            <div class="text-center">
+                <p class="font-medium">Ruta</p>
+                <p th:text="${vuelo.ruta}"></p>
+            </div>
+            <div class="text-center">
+                <p class="font-medium">Avión</p>
+                <p th:text="${vuelo.avion}"></p>
+            </div>
+            <div class="text-center">
+                <p class="font-medium">Precio</p>
+                <p th:text="'$' + ${vuelo.precio}" class="font-bold"></p>
+            </div>
+        </div>
+        <button class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 font-semibold">
+            Comprar
+        </button>
+    </div>
+    -->
+</section>
+
+<!-- 🔷 Footer -->
+<footer class="bg-black text-white mt-16 py-10">
+    <div class="max-w-6xl mx-auto grid grid-cols-4 gap-8 text-sm">
+        <div>
+            <h3 class="font-bold mb-3">Descubre y compra</h3>
+            <ul class="space-y-1">
+                <li>Vuelos Baratos</li>
+                <li>Reserva de Hotel</li>
+                <li>Alquiler de Autos</li>
+                <li>Tours y excursiones</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="font-bold mb-3">Sobre Nosotros</h3>
+            <ul class="space-y-1">
+                <li>Quiénes Somos</li>
+                <li>Trabaja con nosotros</li>
+                <li>Alianzas y Beneficios</li>
+                <li>Sostenibilidad</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="font-bold mb-3">Enlaces Rápidos</h3>
+            <ul class="space-y-1">
+                <li>Información Legal</li>
+                <li>Políticas de privacidad</li>
+                <li>Contrato de Transportes</li>
+                <li>Cambios y reembolsos</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="font-bold mb-3">Síguenos</h3>
+            <div class="flex space-x-3">
+                <a href="#" class="hover:text-blue-400">🐦</a>
+                <a href="#" class="hover:text-blue-600">📘</a>
+                <a href="#" class="hover:text-pink-500">📸</a>
+                <a href="#" class="hover:text-gray-300">💼</a>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

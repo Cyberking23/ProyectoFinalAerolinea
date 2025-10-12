@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aerolínea - Inicio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-800">
+
+<!-- 🔹 NAVBAR -->
+<header class="flex justify-between items-center px-10 py-4 shadow-md bg-white sticky top-0 z-50">
+    <div class="flex items-center space-x-2">
+        <img src="https://cdn-icons-png.flaticon.com/512/2554/2554973.png" alt="Logo" class="w-8 h-8">
+        <span class="text-lg font-semibold text-blue-600">AeroViajes</span>
+    </div>
+
+    <nav class="flex space-x-6 text-gray-700 font-medium">
+        <a th:href="@{/VueloCliente}" class="hover:text-blue-600">Reservas</a>
+        <a th:href="@{/VerListadoVuelos}" class="hover:text-blue-600">Ofertas y destinos</a>
+        <a th:href="@{/InsertarDatosComprador}" class="hover:text-blue-600">Información y ayuda</a>
+        <a th:href="@{/MetodoPago}" class="hover:text-blue-600">Viajes</a>
+        <a th:href="@{/CancelacionVuelo}" class="hover:text-blue-600">Cancelaciones</a>
+        <a th:href="@{/Reclamo}" class="hover:text-blue-600">Reclamos</a>
+    </nav>
+
+
+    <a href="/login" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold">Reservar</a>
+</header>
+
+<!-- 🔹 HERO -->
+<section class="relative bg-white">
+    <div class="flex flex-col md:flex-row items-center justify-between px-10 py-10 md:py-16 max-w-7xl mx-auto">
+        <div class="md:w-1/2 space-y-4">
+            <h2 class="text-4xl font-bold text-red-600 leading-tight">
+                Destinos Increíbles esperan por ti
+            </h2>
+            <p class="text-lg text-gray-700">Reserva ya tu próximo viaje</p>
+            <div class="text-gray-800 text-xl font-semibold">
+                Por trayecto desde <span class="text-red-600 text-3xl">USD 40</span>
+            </div>
+            <a href="#" class="inline-block bg-black text-white px-6 py-2 mt-3 rounded-md hover:bg-gray-800 transition">Compra ya</a>
+        </div>
+        <div class="md:w-1/2 mt-6 md:mt-0">
+            <img src="https://cdn.pixabay.com/photo/2016/03/27/22/21/flight-1281674_1280.jpg" alt="Avión" class="rounded-lg shadow-lg">
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 OFERTAS -->
+<section class="bg-gray-50 py-10">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Ciudad -->
+            <div class="bg-white shadow-md rounded-xl overflow-hidden">
+                <img src="https://cdn.pixabay.com/photo/2018/05/01/19/55/guatemala-3367282_1280.jpg" class="w-full h-48 object-cover">
+                <div class="p-5">
+                    <h3 class="font-semibold text-lg">Cdad. de Guatemala</h3>
+                    <p class="text-sm text-gray-600">Vuelo redondo desde</p>
+                    <p class="font-bold text-blue-600 text-xl">USD 87</p>
+                </div>
+            </div>
+            <!-- San José -->
+            <div class="bg-white shadow-md rounded-xl overflow-hidden">
+                <img src="https://cdn.pixabay.com/photo/2020/09/17/15/03/costa-rica-5578593_1280.jpg" class="w-full h-48 object-cover">
+                <div class="p-5">
+                    <h3 class="font-semibold text-lg">San José, CR</h3>
+                    <p class="text-sm text-gray-600">Vuelo redondo desde</p>
+                    <p class="font-bold text-blue-600 text-xl">USD 101</p>
+                </div>
+            </div>
+            <!-- Miami -->
+            <div class="bg-white shadow-md rounded-xl overflow-hidden">
+                <img src="https://cdn.pixabay.com/photo/2015/12/08/00/32/miami-1086190_1280.jpg" class="w-full h-48 object-cover">
+                <div class="p-5">
+                    <h3 class="font-semibold text-lg">Miami</h3>
+                    <p class="text-sm text-gray-600">Vuelo redondo desde</p>
+                    <p class="font-bold text-blue-600 text-xl">USD 114</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 EXPERIENCIAS -->
+<section class="bg-white py-14">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 items-center gap-6">
+        <div class="space-y-3">
+            <h3 class="text-3xl font-bold text-red-600">Vive Nuevas Experiencias</h3>
+            <p class="text-gray-700">Planifica tu aventura hoy</p>
+            <div class="text-gray-800 text-lg font-semibold">
+                Por trayecto desde <span class="text-red-600 text-2xl">USD 35</span>
+            </div>
+            <a href="#" class="inline-block bg-black text-white px-6 py-2 mt-3 rounded-md hover:bg-gray-800 transition">Compra ya</a>
+        </div>
+        <div>
+            <img src="https://cdn.pixabay.com/photo/2016/03/09/15/10/airplane-1245680_1280.jpg" alt="Ala avión" class="rounded-lg shadow-lg">
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 SECCIÓN INFERIOR -->
+<section class="bg-gray-50 py-12">
+    <h3 class="text-center text-gray-700 font-semibold mb-8">Más información de interés</h3>
+    <div class="flex flex-wrap justify-center gap-8 px-6">
+        <div class="w-64 bg-white shadow-md rounded-xl overflow-hidden">
+            <img src="https://cdn.pixabay.com/photo/2017/03/27/14/57/beach-2179183_1280.jpg" class="h-40 w-full object-cover">
+            <div class="p-4">
+                <p class="font-medium">Explora destinos paradisíacos</p>
+            </div>
+        </div>
+        <div class="w-64 bg-white shadow-md rounded-xl overflow-hidden">
+            <img src="https://cdn.pixabay.com/photo/2019/07/30/15/04/sunset-4370751_1280.jpg" class="h-40 w-full object-cover">
+            <div class="p-4">
+                <p class="font-medium">Disfruta del atardecer en tu próximo vuelo</p>
+            </div>
+        </div>
+        <div class="w-64 bg-white shadow-md rounded-xl overflow-hidden">
+            <img src="https://cdn.pixabay.com/photo/2016/02/19/10/00/walking-1208880_1280.jpg" class="h-40 w-full object-cover">
+            <div class="p-4">
+                <p class="font-medium">Viaja, descubre y vive experiencias únicas</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 FOOTER -->
+<footer class="bg-black text-white py-10 mt-10">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-6 text-sm">
+        <div>
+            <h4 class="font-semibold mb-2">Descubre y compra</h4>
+            <ul class="space-y-1 text-gray-300">
+                <li><a href="#">Vuelos Baratos</a></li>
+                <li><a href="#">Reserva de Hotel</a></li>
+                <li><a href="#">Alquiler de Autos</a></li>
+                <li><a href="#">Tours y excursiones</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="font-semibold mb-2">Sobre Nosotros</h4>
+            <ul class="space-y-1 text-gray-300">
+                <li><a href="#">Quiénes Somos</a></li>
+                <li><a href="#">Trabaja con nosotros</a></li>
+                <li><a href="#">Alianzas y Beneficios</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="font-semibold mb-2">Enlaces Rápidos</h4>
+            <ul class="space-y-1 text-gray-300">
+                <li><a href="#">Información Legal</a></li>
+                <li><a href="#">Políticas de privacidad</a></li>
+                <li><a href="#">Contrato de Transporte</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="font-semibold mb-2">Síguenos</h4>
+            <div class="flex space-x-4 mt-2">
+                <a href="#" class="text-white hover:text-blue-400"><i class="fa-brands fa-facebook"></i>Facebook</a>
+                <a href="#" class="text-white hover:text-blue-400"><i class="fa-brands fa-twitter"></i>Twitter</a>
+                <a href="#" class="text-white hover:text-blue-400"><i class="fa-brands fa-instagram"></i>Instagram</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
