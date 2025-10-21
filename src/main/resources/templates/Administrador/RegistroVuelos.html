@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Registro de Vuelos</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -10,7 +10,7 @@
 <body class="bg-blue-600 font-sans text-gray-800">
 <div class="flex h-screen">
 
-    <!-- Sidebar -->
+    <!-- Sidebar (igual que el tuyo, con "Registrar vuelo" activo) -->
     <aside class="w-64 bg-blue-700 text-white flex flex-col py-6 px-4">
         <div class="flex flex-col items-center mb-10">
             <h2 class="text-lg font-semibold">Samantha</h2>
@@ -19,13 +19,13 @@
             <a th:href="@{/RegistroAerolinea}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md">
                 <span class="ml-2">Registrar aerolínea</span>
             </a>
-            <a th:href="@{/RegistroTripulacion}" class="flex items-center px-3 py-2 rounded-md">
+            <a th:href="@{/RegistroTripulacion}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md">
                 <span class="ml-2">Registrar tripulación</span>
             </a>
             <a th:href="@{/RegistroAviones}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md">
                 <span class="ml-2">Gestión de aviones</span>
             </a>
-            <a th:href="@{/RegistroVuelo}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md">
+            <a th:href="@{/RegistroVuelo}" class="flex items-center px-3 py-2 bg-blue-500 rounded-md">
                 <span class="ml-2">Registrar vuelo</span>
             </a>
             <a th:href="@{/Quejas}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md">
@@ -40,11 +40,10 @@
         </nav>
     </aside>
 
-    <!-- Contenido principal -->
+    <!-- Contenido -->
     <main class="flex-1 bg-gray-50 rounded-tl-3xl p-8 overflow-y-auto">
         <h1 class="text-2xl font-bold text-gray-700 mb-6">Registro de vuelos</h1>
 
-        <!-- Tabla -->
         <div class="bg-white rounded-xl shadow-md p-6">
             <table class="w-full text-left border-collapse">
                 <thead>
@@ -64,27 +63,28 @@
                 </tr>
                 </thead>
                 <tbody class="text-gray-700 text-sm">
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="px-4 py-3">GH-2307</td>
-                    <td class="px-4 py-3">San Salvador</td>
-                    <td class="px-4 py-3">Madrid, España</td>
-                    <td class="px-4 py-3">8500km</td>
-                    <td class="px-4 py-3">10h</td>
-                    <td class="px-4 py-3">Boeing 777</td>
-                    <td class="px-4 py-3">2025-10-15 08:00</td>
-                    <td class="px-4 py-3">2025-10-15 18:00</td>
-                    <td class="px-4 py-3">$450</td>
-                    <td class="px-4 py-3">A3</td>
-                    <td class="px-4 py-3">Online</td>
+                <tr th:each="v : ${vuelos}" class="border-b hover:bg-gray-50">
+                    <td class="px-4 py-3" th:text="${v.identificador}">GH-2307</td>
+                    <td class="px-4 py-3" th:text="${v.origen}">San Salvador</td>
+                    <td class="px-4 py-3" th:text="${v.destino}">Madrid, España</td>
+                    <td class="px-4 py-3" th:text="${v.distanciaKm + ' km'}">8500km</td>
+                    <td class="px-4 py-3" th:text="${v.duracionHoras}">10h</td>
+                    <td class="px-4 py-3" th:text="${v.avion != null ? v.avion.modelo : '—'}">Boeing 777</td>
+                    <td class="px-4 py-3" th:text="${#temporals.format(v.fechaSalida,'yyyy-MM-dd HH:mm')}">2025-10-15 08:00</td>
+                    <td class="px-4 py-3" th:text="${#temporals.format(v.fechaLlegada,'yyyy-MM-dd HH:mm')}">2025-10-15 18:00</td>
+                    <td class="px-4 py-3" th:text="${'$' + v.tarifa}">$450</td>
+                    <td class="px-4 py-3" th:text="${v.puerta}">A3</td>
+                    <td class="px-4 py-3" th:text="${v.checkIn}">Online</td>
                     <td class="px-4 py-3 flex justify-center space-x-3">
-                        <button class="text-indigo-600 hover:text-indigo-800">✏️</button>
-                        <button class="text-red-500 hover:text-red-700">🗑️</button>
+                        <form th:action="@{'/vuelos/' + ${v.id} + '/eliminar'}" method="post"
+                              onsubmit="return confirm('¿Eliminar vuelo?');">
+                            <button class="text-red-500 hover:text-red-700" type="submit">🗑️</button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
             </table>
 
-            <!-- Botón para abrir modal -->
             <div class="mt-6 flex justify-center">
                 <button id="openVueloModal"
                         class="border border-blue-600 text-blue-600 px-6 py-2 rounded-md hover:bg-blue-50 font-medium">
@@ -99,73 +99,93 @@
 <div id="vueloModal"
      class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-white rounded-lg shadow-lg w-[32rem] p-6 relative">
-
-        <!-- Cerrar -->
         <button id="closeVueloModal" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">✖</button>
-
         <h2 class="text-lg font-semibold mb-4 text-gray-700">Añadir vuelo</h2>
 
-        <form class="space-y-4">
+        <form th:action="@{/vuelos}" th:object="${vueloForm}" method="post" class="space-y-4">
             <div>
                 <label class="block text-sm text-gray-600 mb-1">Identificador de vuelo</label>
-                <input type="text" placeholder="Identificador del vuelo" class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                <input th:field="*{identificador}" type="text" placeholder="Identificador"
+                       class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
             </div>
 
             <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm text-gray-600 mb-1">Origen del vuelo</label>
-                    <input type="text" placeholder="Lugar de origen del vuelo" class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                    <label class="block text-sm text-gray-600 mb-1">Origen</label>
+                    <input th:field="*{origen}" type="text" placeholder="Origen"
+                           class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
                 </div>
                 <div>
-                    <label class="block text-sm text-gray-600 mb-1">Duración de vuelo</label>
-                    <input type="text" placeholder="Duración del vuelo" class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-sm text-gray-600 mb-1">Distancia</label>
-                <input type="text" placeholder="Distancia del vuelo" class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
-            </div>
-
-            <div>
-                <label class="block text-sm text-gray-600 mb-1">Avión designado</label>
-                <input type="text" placeholder="Seleccione el avión designado" class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm text-gray-600 mb-1">Fecha y hora de salida</label>
-                    <input type="datetime-local" class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
-                </div>
-                <div>
-                    <label class="block text-sm text-gray-600 mb-1">Fecha y hora de llegada</label>
-                    <input type="datetime-local" class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                    <label class="block text-sm text-gray-600 mb-1">Destino</label>
+                    <input th:field="*{destino}" type="text" placeholder="Destino"
+                           class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
                 </div>
             </div>
 
             <div class="grid grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-sm text-gray-600 mb-1">Tarifa</label>
-                    <input type="text" placeholder="Ingrese la tarifa" class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                    <label class="block text-sm text-gray-600 mb-1">Distancia (km)</label>
+                    <input th:field="*{distanciaKm}" type="number" min="1" placeholder="8500"
+                           class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
                 </div>
                 <div>
-                    <label class="block text-sm text-gray-600 mb-1">Puerta de embarque</label>
-                    <input type="text" placeholder="Puerta" class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                    <label class="block text-sm text-gray-600 mb-1">Duración</label>
+                    <input th:field="*{duracionHoras}" type="text" placeholder="10h"
+                           class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Tarifa (USD)</label>
+                    <input th:field="*{tarifa}" type="number" step="0.01" min="0" placeholder="450"
+                           class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Fecha y hora de salida</label>
+                    <input th:field="*{fechaSalida}" type="datetime-local"
+                           class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Fecha y hora de llegada</label>
+                    <input th:field="*{fechaLlegada}" type="datetime-local"
+                           class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Puerta</label>
+                    <input th:field="*{puerta}" type="text" placeholder="A3"
+                           class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
                 </div>
                 <div>
                     <label class="block text-sm text-gray-600 mb-1">Check-in</label>
-                    <input type="text" placeholder="Check-in" class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                    <input th:field="*{checkIn}" type="text" placeholder="Online"
+                           class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Avión</label>
+                    <select name="avionId" required
+                            class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                        <option value="">Seleccionar</option>
+                        <option th:each="a : ${aviones}" th:value="${a.id}" th:text="${a.modelo + ' (' + a.matricula + ')'}"></option>
+                    </select>
                 </div>
             </div>
 
             <div>
-                <label class="block text-sm text-gray-600 mb-1">Seleccione la aerolínea</label>
-                <input type="text" placeholder="Designe una aerolínea para el vuelo" class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                <label class="block text-sm text-gray-600 mb-1">Aerolínea</label>
+                <select name="aerolineaId" required
+                        class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                    <option value="">Seleccionar</option>
+                    <option th:each="al : ${aerolineas}" th:value="${al.id}" th:text="${al.nombre}"></option>
+                </select>
             </div>
 
-            <!-- Botón -->
             <div class="mt-5 flex justify-end">
-                <button type="button" id="cancelVueloModal" class="bg-orange-400 hover:bg-orange-500 text-white px-5 py-2 rounded-md mr-2">Cancelar</button>
+                <button type="button" id="cancelVueloModal"
+                        class="bg-orange-400 hover:bg-orange-500 text-white px-5 py-2 rounded-md mr-2">Cancelar</button>
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md">Añadir vuelo</button>
             </div>
         </form>
