@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estadísticas</title>
+    <title th:text="${titulo}">Estadísticas</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -16,29 +16,14 @@
             <h2 class="text-lg font-semibold">Samantha</h2>
         </div>
         <nav class="flex flex-col space-y-3 text-sm font-medium">
-            <a th:href="@{/RegistroAerolinea}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md">
-                <span class="ml-2">Registrar aerolínea</span>
-            </a>
-            <a th:href="@{/RegistroTripulacion}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md">
-                <span class="ml-2">Registrar tripulación</span>
-            </a>
-            <a th:href="@{/RegistroAviones}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md">
-                <span class="ml-2">Gestión de aviones</span>
-            </a>
-            <a th:href="@{/RegistroVuelo}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md">
-                <span class="ml-2">Registrar vuelo</span>
-            </a>
-            <a th:href="@{/Quejas}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md">
-                <span class="ml-2">Informe de quejas</span>
-            </a>
-            <a th:href="@{/Estadisticas}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md">
-                <span class="ml-2">Estadísticas</span>
-            </a>
-            <a href="/" class="flex items-center px-3 py-2 mt-auto hover:bg-red-600 rounded-md">
-                <span class="ml-2">Salir</span>
-            </a>
+            <a th:href="@{/RegistroAerolinea}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md"><span class="ml-2">Registrar aerolínea</span></a>
+            <a th:href="@{/RegistroTripulacion}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md"><span class="ml-2">Registrar tripulación</span></a>
+            <a th:href="@{/RegistroAviones}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md"><span class="ml-2">Gestión de aviones</span></a>
+            <a th:href="@{/RegistroVuelo}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md"><span class="ml-2">Registrar vuelo</span></a>
+            <a th:href="@{/Quejas}" class="flex items-center px-3 py-2 hover:bg-blue-500 rounded-md"><span class="ml-2">Informe de quejas</span></a>
+            <a th:href="@{/Estadisticas}" class="flex items-center px-3 py-2 bg-blue-500 rounded-md"><span class="ml-2">Estadísticas</span></a>
+            <a href="/" class="flex items-center px-3 py-2 mt-auto hover:bg-red-600 rounded-md"><span class="ml-2">Salir</span></a>
         </nav>
-
     </aside>
 
     <!-- Contenido principal -->
@@ -46,27 +31,26 @@
         <h1 class="text-2xl font-bold text-gray-700 mb-6 text-center">Estadísticas</h1>
 
         <!-- Tarjetas de estadísticas -->
-        <div class="grid grid-cols-3 gap-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-blue-100 text-blue-700 rounded-lg shadow p-6 text-center">
                 <div class="text-3xl mb-2">📘</div>
                 <h3 class="font-semibold">Reservaciones Realizadas</h3>
-                <p class="text-3xl font-bold mt-2">35</p>
+                <p class="text-3xl font-bold mt-2" th:text="${reservasCount}">0</p>
             </div>
 
             <div class="bg-blue-100 text-blue-700 rounded-lg shadow p-6 text-center">
                 <div class="text-3xl mb-2">💬</div>
                 <h3 class="font-semibold">Reclamos</h3>
-                <p class="text-3xl font-bold mt-2">35</p>
+                <p class="text-3xl font-bold mt-2" th:text="${quejasCount}">0</p>
             </div>
 
             <div class="bg-blue-100 text-blue-700 rounded-lg shadow p-6 text-center">
                 <div class="text-3xl mb-2">❌</div>
                 <h3 class="font-semibold">Vuelos Cancelados</h3>
-                <p class="text-3xl font-bold mt-2">12</p>
+                <p class="text-3xl font-bold mt-2" th:text="${canceladosCount}">0</p>
             </div>
         </div>
 
-        <!-- Tabla -->
         <!-- Tabla -->
         <div class="bg-white rounded-xl shadow-md p-6">
             <h2 class="text-lg font-semibold text-gray-700 mb-4">Últimos Reclamos</h2>
@@ -80,35 +64,26 @@
                 </tr>
                 </thead>
                 <tbody class="text-gray-700 text-sm">
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="px-4 py-3">12/06/25</td>
-                    <td class="px-4 py-3">Sobre los asientos incómodos</td>
-                    <td class="px-4 py-3 text-blue-600 font-medium">En revisión</td>
+                <tr th:each="q : ${ultimasQuejas}" class="border-b hover:bg-gray-50">
+                    <td class="px-4 py-3" th:text="${#temporals.format(q.fechaReclamo, 'dd/MM/yy')}">12/06/25</td>
+                    <td class="px-4 py-3" th:text="${q.asunto}">Comida en mal estado</td>
+                    <td class="px-4 py-3">
+            <span th:switch="${q.estado}">
+              <span th:case="'EN_REVISION'" class="text-blue-600 font-medium">En revisión</span>
+              <span th:case="'PENDIENTE'" class="text-yellow-600 font-medium">Pendiente</span>
+              <span th:case="'RESUELTO'" class="text-green-600 font-medium">Resuelto</span>
+              <span th:case="*">-</span>
+            </span>
+                    </td>
                     <td class="px-4 py-3 text-center">
-                        <button class="text-red-500 hover:text-red-700" title="Eliminar">
-                            🗑️
-                        </button>
+                        <form th:action="@{'/quejas/' + ${q.id} + '/eliminar'}" method="post"
+                              onsubmit="return confirm('¿Eliminar esta queja?');">
+                            <button class="text-red-500 hover:text-red-700" title="Eliminar">🗑️</button>
+                        </form>
                     </td>
                 </tr>
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="px-4 py-3">12/06/25</td>
-                    <td class="px-4 py-3">Comida en mal estado</td>
-                    <td class="px-4 py-3 text-blue-600 font-medium">En revisión</td>
-                    <td class="px-4 py-3 text-center">
-                        <button class="text-red-500 hover:text-red-700" title="Eliminar">
-                            🗑️
-                        </button>
-                    </td>
-                </tr>
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="px-4 py-3">12/06/25</td>
-                    <td class="px-4 py-3">Maltrato en el avión</td>
-                    <td class="px-4 py-3 text-yellow-600 font-medium">Pendiente</td>
-                    <td class="px-4 py-3 text-center">
-                        <button class="text-red-500 hover:text-red-700" title="Eliminar">
-                            🗑️
-                        </button>
-                    </td>
+                <tr th:if="${#lists.isEmpty(ultimasQuejas)}">
+                    <td colspan="4" class="px-4 py-6 text-center text-gray-500">Sin reclamos recientes</td>
                 </tr>
                 </tbody>
             </table>

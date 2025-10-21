@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Panel - Aerolíneas</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-blue-600 font-sans text-gray-800">
-
 <div class="flex h-screen">
-    <!-- Sidebar -->
+    <!-- Sidebar (igual que el tuyo) -->
     <aside class="w-64 bg-blue-700 text-white flex flex-col py-6 px-4">
         <div class="flex flex-col items-center mb-10">
             <h2 class="text-lg font-semibold">Samantha</h2>
@@ -37,7 +36,6 @@
                 <span class="ml-2">Salir</span>
             </a>
         </nav>
-
     </aside>
 
     <!-- Contenido -->
@@ -57,20 +55,36 @@
                 </tr>
                 </thead>
                 <tbody class="text-gray-700 text-sm">
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="px-4 py-3">Hola Airlines</td>
-                    <td class="px-4 py-3">3000</td>
-                    <td class="px-4 py-3">Natural</td>
-                    <td class="px-4 py-3 text-green-600 font-semibold">Activo</td>
-                    <td class="px-4 py-3 flex justify-center space-x-3">
-                        <button class="text-indigo-600 hover:text-indigo-800">✏️</button>
-                        <button class="text-red-500 hover:text-red-700">🗑️</button>
+                <tr th:each="a : ${aerolineas}" class="border-b hover:bg-gray-50">
+                    <td class="px-4 py-3" th:text="${a.nombre}">Nombre</td>
+                    <td class="px-4 py-3" th:text="${a.codigoIataIcao}">IATA</td>
+                    <td class="px-4 py-3" th:text="${a.paisOrigen}">País</td>
+                    <td class="px-4 py-3">
+            <span th:text="${a.estado}"
+                  th:classappend="${a.estado} == 'Activo' ? 'text-green-600 font-semibold' : 'text-gray-500'">Estado</span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <div class="flex justify-center space-x-3">
+                            <!-- Botón Editar: abre modal y carga datos con data-* -->
+                            <button class="text-indigo-600 hover:text-indigo-800 editBtn"
+                                    th:data-id="${a.id}"
+                                    th:data-nombre="${a.nombre}"
+                                    th:data-codigo="${a.codigoIataIcao}"
+                                    th:data-pais="${a.paisOrigen}"
+                                    th:data-estado="${a.estado}">✏️</button>
+
+                            <!-- Eliminar: pequeño form POST -->
+                            <form th:action="@{'/aerolineas/' + ${a.id} + '/eliminar'}" method="post"
+                                  onsubmit="return confirm('¿Eliminar esta aerolínea?');">
+                                <button class="text-red-500 hover:text-red-700" type="submit">🗑️</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
 
-            <!-- Botón para abrir modal -->
+            <!-- Botón abrir modal (CREAR) -->
             <div class="mt-6 flex justify-center">
                 <button id="openModalBtn"
                         class="border border-blue-600 text-blue-600 px-6 py-2 rounded-md hover:bg-blue-50 font-medium">
@@ -81,48 +95,54 @@
     </main>
 </div>
 
-<div id="aerolineaModal"
-     class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+<!-- MODAL -->
+<div id="aerolineaModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-white rounded-lg shadow-lg w-96 p-6 relative">
-
-        <!-- Botón cerrar -->
+        <!-- Cerrar -->
         <button id="closeModalBtn" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">✖</button>
+        <h2 id="modalTitle" class="text-lg font-semibold mb-4 text-gray-700">Añadir Aerolínea</h2>
 
-        <h2 class="text-lg font-semibold mb-4 text-gray-700">Añadir Aerolínea</h2>
+        <!-- FORM: por defecto CREAR; para editar cambiamos la action por JS -->
+        <form id="aerolineaForm" th:action="@{/aerolineas}" method="post" th:object="${aerolineaForm}" class="space-y-4">
+            <input type="hidden" id="id" name="id"/>
 
-        <form id="aerolineaForm" class="space-y-4">
             <div>
                 <label class="block text-sm text-gray-600 mb-1">Nombre:</label>
-                <input type="text" placeholder="Ingrese el nombre de la aerolínea"
-                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                <input type="text" th:field="*{nombre}" placeholder="Ingrese el nombre de la aerolínea"
+                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400" required>
             </div>
             <div>
                 <label class="block text-sm text-gray-600 mb-1">Código IATA/ICAO:</label>
-                <input type="text" placeholder="Ingrese el código IATA o ICAO"
-                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                <input type="text" th:field="*{codigoIataIcao}" placeholder="Ingrese el código IATA o ICAO"
+                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400" required>
             </div>
             <div>
                 <label class="block text-sm text-gray-600 mb-1">País de origen:</label>
-                <input type="text" placeholder="Ingrese el país de origen de la aerolínea"
-                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                <input type="text" th:field="*{paisOrigen}" placeholder="Ingrese el país de origen de la aerolínea"
+                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400" required>
             </div>
             <div>
                 <label class="block text-sm text-gray-600 mb-1">Estado:</label>
-                <select class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
-                    <option>Seleccionar</option>
-                    <option>Activo</option>
-                    <option>Inactivo</option>
+                <select th:field="*{estado}"
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400">
+                    <option value="">Seleccionar</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
                 </select>
+
             </div>
 
             <div class="flex justify-between mt-5">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md">Añadir elemento</button>
-                <button type="button" id="cancelBtn" class="bg-orange-400 hover:bg-orange-500 text-white px-5 py-2 rounded-md">Cancelar</button>
+                <button type="submit" id="submitBtn"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md">Guardar</button>
+                <button type="button" id="cancelBtn"
+                        class="bg-orange-400 hover:bg-orange-500 text-white px-5 py-2 rounded-md">Cancelar</button>
             </div>
         </form>
     </div>
 </div>
 
+<!-- JS -->
 <script th:src="@{/js/ModalRegistroAerolinea.js}"></script>
 </body>
 </html>
