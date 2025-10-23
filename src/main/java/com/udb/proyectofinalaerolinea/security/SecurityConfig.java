@@ -1,6 +1,7 @@
 package com.udb.proyectofinalaerolinea.security;
 
 import com.udb.proyectofinalaerolinea.filters.JwtAuthFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 public class SecurityConfig {
@@ -36,19 +36,23 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((req, res, e) ->
-                                res.sendError(HttpServletResponse.SC_UNAUTHORIZED)) // 401
+                                res.sendError(HttpServletResponse.SC_UNAUTHORIZED)) // 401 si no hay JWT
                 )
                 .authorizeHttpRequests(auth -> auth
+                        // ✅ páginas públicas y estáticos
                         .requestMatchers("/", "/auth", "/auth/registro",
                                 "/css/**", "/js/**", "/images/**", "/webjars/**", "/favicon.ico").permitAll()
+                        // ✅ login y registro JSON público
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        // 🔒 lo demás protegido
                         .requestMatchers("/auth/token").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/cliente/**").hasRole("CLIENTE") // hasAnyRole("CLIENTE") también vale
+                        .requestMatchers("/cliente/**").hasRole("CLIENTE")
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(daoAuthProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 

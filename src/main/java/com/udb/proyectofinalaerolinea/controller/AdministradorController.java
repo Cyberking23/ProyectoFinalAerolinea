@@ -36,7 +36,7 @@ public class AdministradorController {
     // =========================================================================
     // PÁGINAS
     // =========================================================================
-    @GetMapping("/RegistroAerolinea")
+    @GetMapping("/admin/RegistroAerolinea")
     public String registroAerolinea(Model model) {
         model.addAttribute("titulo", "Registro Aerolínea");
         model.addAttribute("aerolineas", aerolineaService.listarTodas());
@@ -44,7 +44,7 @@ public class AdministradorController {
         return "Administrador/RegistroAerolinea";
     }
 
-    @GetMapping("/RegistroTripulacion")
+    @GetMapping("/admin/RegistroTripulacion")
     public String registroTripulacion(Model model) {
         model.addAttribute("titulo", "Registro Tripulación");
         model.addAttribute("tripulantes", tripulanteService.listarTodos());
@@ -53,7 +53,7 @@ public class AdministradorController {
         return "Administrador/RegistroTripulacion";
     }
 
-    @GetMapping("/RegistroAviones")
+    @GetMapping("/admin/RegistroAviones")
     public String registroAviones(Model model) {
         model.addAttribute("titulo", "Gestión de Aviones");
         model.addAttribute("aviones", avionService.listarTodos());
@@ -62,7 +62,7 @@ public class AdministradorController {
         return "Administrador/RegistroAviones";
     }
 
-    @GetMapping("/RegistroVuelo")
+    @GetMapping("/admin/RegistroVuelo")
     public String registroVuelos(Model model) {
         model.addAttribute("titulo", "Registro de Vuelos");
         model.addAttribute("vuelos", vueloService.listarTodos());
@@ -72,14 +72,14 @@ public class AdministradorController {
         return "Administrador/RegistroVuelos";
     }
 
-    @GetMapping("/Quejas")
+    @GetMapping("/admin/Quejas")
     public String quejas(Model model) {
         model.addAttribute("titulo", "Informe de Quejas");
         model.addAttribute("quejas", quejaService.listarTodas());
         return "Administrador/Quejas";
     }
 
-    @GetMapping("/Estadisticas")
+    @GetMapping("/admin/Estadisticas")
     public String estadisticas(Model model) {
         var resumen = estadisticasService.resumenTotales();     // <-- NUEVO
         model.addAttribute("titulo", "Estadísticas");
@@ -93,7 +93,7 @@ public class AdministradorController {
     // =========================================================================
     // CRUD AEROLÍNEA
     // =========================================================================
-    @PostMapping("/aerolineas")
+    @PostMapping("/admin/aerolineas")
     public String crearAerolinea(@Valid @ModelAttribute("aerolineaForm") Aerolinea aerolinea,
                                  BindingResult result,
                                  Model model) {
@@ -106,13 +106,13 @@ public class AdministradorController {
         return "redirect:/RegistroAerolinea";
     }
 
-    @GetMapping("/aerolineas/{id}")
+    @GetMapping("/admin/aerolineas/{id}")
     @ResponseBody
     public Aerolinea obtenerAerolinea(@PathVariable Long id) {
         return aerolineaService.obtenerPorId(id);
     }
 
-    @PostMapping("/aerolineas/{id}/actualizar")
+    @PostMapping("/admin/aerolineas/{id}/actualizar")
     public String actualizarAerolinea(@PathVariable Long id,
                                       @Valid @ModelAttribute("aerolineaForm") Aerolinea aerolinea,
                                       BindingResult result,
@@ -126,7 +126,7 @@ public class AdministradorController {
         return "redirect:/RegistroAerolinea";
     }
 
-    @PostMapping("/aerolineas/{id}/eliminar")
+    @PostMapping("/admin/aerolineas/{id}/eliminar")
     public String eliminarAerolinea(@PathVariable Long id) {
         aerolineaService.eliminar(id);
         return "redirect:/RegistroAerolinea";
@@ -135,7 +135,7 @@ public class AdministradorController {
     // =========================================================================
     // CRUD TRIPULACIÓN
     // =========================================================================
-    @PostMapping("/tripulantes")
+    @PostMapping("/admin/tripulantes")
     public String crearTripulante(@Valid @ModelAttribute("tripulanteForm") Tripulante tripulante,
                                   BindingResult result,
                                   @RequestParam("aerolineaId") Long aerolineaId,
@@ -150,7 +150,7 @@ public class AdministradorController {
         return "redirect:/RegistroTripulacion";
     }
 
-    @GetMapping("/tripulantes/{id}")
+    @GetMapping("/admin/tripulantes/{id}")
     @ResponseBody
     public Tripulante obtenerTripulante(@PathVariable Long id) {
         Tripulante t = tripulanteService.obtenerPorId(id);
@@ -158,7 +158,7 @@ public class AdministradorController {
         return t;
     }
 
-    @PostMapping("/tripulantes/{id}/actualizar")
+    @PostMapping("/admin/tripulantes/{id}/actualizar")
     public String actualizarTripulante(@PathVariable Long id,
                                        @Valid @ModelAttribute("tripulanteForm") Tripulante tripulante,
                                        BindingResult result,
@@ -174,7 +174,7 @@ public class AdministradorController {
         return "redirect:/RegistroTripulacion";
     }
 
-    @PostMapping("/tripulantes/{id}/eliminar")
+    @PostMapping("/admin/tripulantes/{id}/eliminar")
     public String eliminarTripulante(@PathVariable Long id) {
         tripulanteService.eliminar(id);
         return "redirect:/RegistroTripulacion";
@@ -183,7 +183,7 @@ public class AdministradorController {
     // =========================================================================
     // CRUD AVIONES
     // =========================================================================
-    @PostMapping("/aviones")
+    @PostMapping("/admin/aviones")
     public String crearAvion(@Valid @ModelAttribute("avionForm") Avion avion,
                              BindingResult result,
                              @RequestParam("aerolineaId") Long aerolineaId,
@@ -198,7 +198,7 @@ public class AdministradorController {
         return "redirect:/RegistroAviones";
     }
 
-    @GetMapping("/aviones/{id}")
+    @GetMapping("/admin/aviones/{id}")
     @ResponseBody
     public Avion obtenerAvion(@PathVariable Long id) {
         Avion a = avionService.obtenerPorId(id);
@@ -206,7 +206,7 @@ public class AdministradorController {
         return a;
     }
 
-    @PostMapping("/aviones/{id}/actualizar")
+    @PostMapping("/admin/aviones/{id}/actualizar")
     public String actualizarAvion(@PathVariable Long id,
                                   @Valid @ModelAttribute("avionForm") Avion avion,
                                   BindingResult result,
@@ -222,7 +222,7 @@ public class AdministradorController {
         return "redirect:/RegistroAviones";
     }
 
-    @PostMapping("/aviones/{id}/eliminar")
+    @PostMapping("/admin/aviones/{id}/eliminar")
     public String eliminarAvion(@PathVariable Long id) {
         avionService.eliminar(id);
         return "redirect:/RegistroAviones";
@@ -231,7 +231,7 @@ public class AdministradorController {
     // =========================================================================
     // CRUD VUELOS
     // =========================================================================
-    @PostMapping("/vuelos")
+    @PostMapping("/admin/vuelos")
     public String crearVuelo(@Valid @ModelAttribute("vueloForm") Vuelo vuelo,
                              BindingResult result,
                              @RequestParam("avionId") Long avionId,
@@ -248,7 +248,7 @@ public class AdministradorController {
         return "redirect:/RegistroVuelo";
     }
 
-    @GetMapping("/vuelos/{id}")
+    @GetMapping("/admin/vuelos/{id}")
     @ResponseBody
     public Vuelo obtenerVuelo(@PathVariable Long id) {
         Vuelo v = vueloService.obtenerPorId(id);
@@ -257,7 +257,7 @@ public class AdministradorController {
         return v;
     }
 
-    @PostMapping("/vuelos/{id}/actualizar")
+    @PostMapping("/admin/vuelos/{id}/actualizar")
     public String actualizarVuelo(@PathVariable Long id,
                                   @Valid @ModelAttribute("vueloForm") Vuelo vuelo,
                                   BindingResult result,
@@ -275,7 +275,7 @@ public class AdministradorController {
         return "redirect:/RegistroVuelo";
     }
 
-    @PostMapping("/vuelos/{id}/eliminar")
+    @PostMapping("/admin/vuelos/{id}/eliminar")
     public String eliminarVuelo(@PathVariable Long id) {
         vueloService.eliminar(id);
         return "redirect:/RegistroVuelo";
@@ -284,7 +284,7 @@ public class AdministradorController {
     // =========================================================================
     // QUEJAS (ADMIN)
     // =========================================================================
-    @GetMapping("/quejas/{id}")
+    @GetMapping("/admin/quejas/{id}")
     @ResponseBody
     public Queja obtenerQueja(@PathVariable Long id) {
         Queja q = quejaService.obtenerPorId(id);
@@ -295,14 +295,14 @@ public class AdministradorController {
         return q;
     }
 
-    @PostMapping("/quejas/{id}/estado")
+    @PostMapping("/admin/quejas/{id}/estado")
     public String cambiarEstadoQueja(@PathVariable Long id,
                                      @RequestParam("estado") String estado) {
         quejaService.actualizarEstado(id, EstadoQueja.valueOf(estado));
         return "redirect:/Quejas";
     }
 
-    @PostMapping("/quejas/{id}/eliminar")
+    @PostMapping("/admin/quejas/{id}/eliminar")
     public String eliminarQueja(@PathVariable Long id) {
         quejaService.eliminar(id);
         return "redirect:/Quejas";
