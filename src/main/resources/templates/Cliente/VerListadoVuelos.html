@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Vuelos disponibles</title>
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 font-sans">
 
-<!-- 🔷 Navbar -->
+<!-- NAVBAR -->
 <header class="flex justify-between items-center px-10 py-4 bg-white shadow-md">
     <div class="flex items-center space-x-2">
-        <img th:src="@{/img/logo.png}" alt="Logo" class="h-6">
+        <img src="https://cdn-icons-png.flaticon.com/512/2554/2554973.png" alt="Logo" class="w-8 h-8">
+        <span class="text-lg font-semibold text-blue-600">AeroViajes</span>
     </div>
 
     <nav class="flex space-x-6 text-gray-700 font-medium">
@@ -24,97 +25,127 @@
         <a th:href="@{/Reclamo}" class="hover:text-blue-600">Reclamos</a>
     </nav>
 
-
-    <a href="#" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full font-semibold">
+    <a th:href="@{/}" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full font-semibold">
         Reservar
     </a>
 </header>
 
-<!-- 🔷 Título de ruta -->
+<!-- TÍTULO -->
 <section class="text-center mt-10">
-    <h1 class="text-xl font-semibold text-gray-800">El Salvador - Los Ángeles</h1>
+    <!-- Vacío -->
+    <h1 class="text-xl font-semibold text-gray-800" th:if="${#lists.isEmpty(vuelos)}">
+        Vuelos disponibles
+    </h1>
+    <!-- Con datos -->
+    <h1 class="text-xl font-semibold text-gray-800"
+        th:unless="${#lists.isEmpty(vuelos)}"
+        th:text="|${vuelos[0].origen} - ${vuelos[0].destino}|">
+        Vuelos disponibles
+    </h1>
 </section>
 
-<!-- 🔷 Tabla de vuelos -->
-<section class="max-w-5xl mx-auto mt-10 space-y-4">
-    <!-- Ejemplo de vuelo (puedes iterar esto con Thymeleaf) -->
-    <div class="flex justify-between items-center bg-white p-5 rounded-lg shadow hover:shadow-lg transition">
-        <div class="flex items-center space-x-4">
-            <img th:src="@{/img/avion.png}" alt="Logo Aerolínea" class="h-12">
-            <div>
-                <h2 class="text-gray-900 font-semibold">AeroLatin</h2>
-                <p class="text-gray-500 text-sm">VUE-2346</p>
-            </div>
-        </div>
-        <div class="flex space-x-12 text-gray-700">
-            <div class="text-center">
-                <p class="font-medium">Salida</p>
-                <p>23:00</p>
-            </div>
-            <div class="text-center">
-                <p class="font-medium">Duración</p>
-                <p>11h 30m</p>
-            </div>
-            <div class="text-center">
-                <p class="font-medium">Ruta</p>
-                <p>ESA-LA</p>
-            </div>
-            <div class="text-center">
-                <p class="font-medium">Avión</p>
-                <p>Boeing 737</p>
-            </div>
-            <div class="text-center">
-                <p class="font-medium">Precio</p>
-                <p class="text-lg font-bold text-gray-800">$580</p>
-            </div>
-        </div>
-        <button class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 font-semibold">
-            Comprar
-        </button>
+<section class="max-w-7xl mx-auto mt-10">
+
+    <!-- MENSAJE LISTA VACÍA -->
+    <div th:if="${#lists.isEmpty(vuelos)}"
+         class="bg-white rounded-lg shadow p-6 text-center text-gray-500">
+        No hay vuelos disponibles por ahora.
     </div>
 
-    <!-- 🔁 Ejemplo para Thymeleaf -->
-    <!--
-    <div th:each="vuelo : ${vuelos}" class="flex justify-between items-center bg-white p-5 rounded-lg shadow">
-        <div class="flex items-center space-x-4">
-            <img th:src="@{/img/avion.png}" alt="Logo Aerolínea" class="h-12">
-            <div>
-                <h2 th:text="${vuelo.aerolinea}" class="font-semibold"></h2>
-                <p th:text="${vuelo.codigo}" class="text-gray-500 text-sm"></p>
-            </div>
-        </div>
-        <div class="flex space-x-12 text-gray-700">
-            <div class="text-center">
-                <p class="font-medium">Salida</p>
-                <p th:text="${vuelo.salida}"></p>
-            </div>
-            <div class="text-center">
-                <p class="font-medium">Duración</p>
-                <p th:text="${vuelo.duracion}"></p>
-            </div>
-            <div class="text-center">
-                <p class="font-medium">Ruta</p>
-                <p th:text="${vuelo.ruta}"></p>
-            </div>
-            <div class="text-center">
-                <p class="font-medium">Avión</p>
-                <p th:text="${vuelo.avion}"></p>
-            </div>
-            <div class="text-center">
-                <p class="font-medium">Precio</p>
-                <p th:text="'$' + ${vuelo.precio}" class="font-bold"></p>
-            </div>
-        </div>
-        <button class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 font-semibold">
-            Comprar
-        </button>
+    <!-- ENCABEZADO ALINEADO -->
+    <div th:if="${!#lists.isEmpty(vuelos)}"
+         class="hidden md:grid grid-cols-12 gap-4 text-sm text-gray-600 px-4">
+        <div class="col-span-3">Aerolínea</div>
+        <div class="text-center">Salida</div>
+        <div class="text-center">Duración</div>
+        <div class="text-center">Origen</div>
+        <div class="text-center">Destino</div>
+        <div class="text-center">Ruta</div>
+        <div class="col-span-2 text-center">Avión</div>
+        <div class="text-center">Precio</div>
+        <div class="text-center">Acción</div>
     </div>
-    -->
+
+    <!-- FILAS -->
+    <div class="mt-2 space-y-3">
+        <article th:each="vuelo : ${vuelos}"
+                 class="bg-white rounded-lg shadow hover:shadow-lg transition md:grid md:grid-cols-12 md:gap-4 md:items-center p-4">
+
+            <!-- Aerolínea -->
+            <div class="md:col-span-3 flex items-center gap-3">
+                <img th:src="@{/img/avion.png}" alt="Logo Aerolínea" class="h-10 w-10 object-contain">
+                <div>
+                    <div class="font-semibold text-gray-900"
+                         th:text="${vuelo.aerolinea != null ? vuelo.aerolinea.nombre : '—'}">Aerolínea
+                    </div>
+                    <div class="text-gray-500 text-xs" th:text="${vuelo.identificador}">COD-1234</div>
+                </div>
+            </div>
+
+            <!-- Salida -->
+            <div class="text-center">
+                <div class="font-medium">Salida</div>
+                <div th:text="${#temporals.format(vuelo.fechaSalida, 'HH:mm')}">08:34</div>
+            </div>
+
+            <!-- Duración -->
+            <div class="text-center">
+                <div class="font-medium">Duración</div>
+                <div th:text="${vuelo.duracionHoras != null ?
+                      vuelo.duracionHoras :
+                      (T(java.time.temporal.ChronoUnit).MINUTES.between(vuelo.fechaSalida, vuelo.fechaLlegada) / 60) + 'h ' +
+                      (T(java.time.temporal.ChronoUnit).MINUTES.between(vuelo.fechaSalida, vuelo.fechaLlegada) % 60) + 'm'}">
+                    02:40
+                </div>
+            </div>
+
+            <!-- Origen -->
+            <div class="text-center">
+                <div class="font-medium">Origen</div>
+                <div th:text="${vuelo.origen}">SAL</div>
+            </div>
+
+            <!-- Destino -->
+            <div class="text-center">
+                <div class="font-medium">Destino</div>
+                <div th:text="${vuelo.destino}">MIA</div>
+            </div>
+
+            <!-- Ruta -->
+            <div class="text-center">
+                <div class="font-medium">Ruta</div>
+                <div th:text="|${vuelo.origen}-${vuelo.destino}|">SAL-MIA</div>
+            </div>
+
+            <!-- Avión -->
+            <div class="md:col-span-2 text-center">
+                <div class="font-medium">Avión</div>
+                <div th:text="${vuelo.avion != null ? vuelo.avion.modelo : '—'}">Boeing 737-800</div>
+            </div>
+
+            <!-- Precio -->
+            <div class="text-center">
+                <div class="font-medium">Precio</div>
+                <div class="text-lg font-bold text-gray-900"
+                     th:text="'$' + ${#numbers.formatDecimal(vuelo.tarifa, 1, 'COMMA', 2, 'POINT')}">
+                    $299.99
+                </div>
+            </div>
+
+            <!-- Acción -->
+            <div class="text-center">
+                <a class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 font-semibold"
+                   th:href="@{'/InsertarDatosComprador'(id=${vuelo.id})}">
+                    Comprar
+                </a>
+            </div>
+        </article>
+    </div>
 </section>
 
-<!-- 🔷 Footer -->
+<!-- FOOTER -->
 <footer class="bg-black text-white mt-16 py-10">
-    <div class="max-w-6xl mx-auto grid grid-cols-4 gap-8 text-sm">
+    <div class="max-w-7xl mx-auto grid grid-cols-4 gap-8 text-sm">
         <div>
             <h3 class="font-bold mb-3">Descubre y compra</h3>
             <ul class="space-y-1">
@@ -156,5 +187,6 @@
         </div>
     </div>
 </footer>
+
 </body>
 </html>
