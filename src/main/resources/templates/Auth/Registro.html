@@ -36,21 +36,21 @@
     <div th:if="${mensaje}" class="text-green-600 text-center text-sm mb-3" th:text="${mensaje}"></div>
 
     <!-- Formulario -->
-    <form action="/registro" method="post" class="space-y-4">
+    <form id="reg-form" class="space-y-4">
         <div>
-            <input type="text" name="nombre" placeholder="Nombre"
+            <input id="reg-nombre" type="text" name="nombre" placeholder="Nombre"
                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
         </div>
         <div>
-            <input type="email" name="correo" placeholder="Correo Electrónico"
+            <input id="reg-correo" type="email" name="correo" placeholder="Correo Electrónico"
                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
         </div>
         <div>
-            <input type="password" name="contrasena" placeholder="Contraseña"
+            <input id="reg-pass"  type="password" name="contrasena" placeholder="Contraseña"
                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
         </div>
         <div>
-            <input type="password" name="repetir" placeholder="Repetir Contraseña"
+            <input id="reg-rep" type="password" name="repetir" placeholder="Repetir Contraseña"
                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
         </div>
 
@@ -60,10 +60,12 @@
         </button>
     </form>
 
+
     <p class="text-center text-gray-600 mt-6 text-sm">
         ¿Ya tienes cuenta?
         <a href="/auth" class="text-blue-600 hover:underline font-medium">Login</a>
     </p>
 </div>
 </body>
+<script th:src="@{/js/auth.js}"></script>
 </html>

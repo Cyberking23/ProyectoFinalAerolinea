@@ -140,5 +140,8 @@ docker-compose up
 🌐 Accedé a la aplicación:
 👉 http://localhost:8080
 
-🛢️ Accedé a la base de datos:
-👉 localhost:3307 (usuario: admin, contraseña: admin123)
+Credenciales
+
+Email: admin@aerolinea.com
+
+Password en login: Admin123!

@@ -40,7 +40,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         // ✅ páginas públicas y estáticos
-                        .requestMatchers("/", "/auth", "/auth/registro",
+                        .requestMatchers("/**", "/auth", "/auth/registro",
                                 "/css/**", "/js/**", "/images/**", "/webjars/**", "/favicon.ico").permitAll()
                         // ✅ login y registro JSON público
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
