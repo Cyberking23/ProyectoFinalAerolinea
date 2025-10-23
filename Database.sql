@@ -67,13 +67,10 @@ CREATE TABLE IF NOT EXISTS vuelos (
     FOREIGN KEY (aerolinea_id) REFERENCES aerolineas(id) ON DELETE CASCADE
     );
 
-/* Índices de apoyo (opcional) */
-CREATE INDEX idx_vuelos_aerolinea ON vuelos(aerolinea_id);
-CREATE INDEX idx_vuelos_avion     ON vuelos(avion_id);
 
 /* ==========================================================
    TABLA: Quejas / Reclamos
-   ========================================================== */
+   =============||============================================= */
 CREATE TABLE IF NOT EXISTS quejas (
                                       id             BIGINT AUTO_INCREMENT PRIMARY KEY,
                                       fecha_reclamo  DATE         NOT NULL,
@@ -96,6 +93,59 @@ CREATE TABLE IF NOT EXISTS reservaciones (
     estado            ENUM('Activa','Cancelada') DEFAULT 'Activa',
     CONSTRAINT fk_reserva_vuelo
     FOREIGN KEY (vuelo_id) REFERENCES vuelos(id) ON DELETE CASCADE
+    );
+
+
+
+USE vuelosdb;
+
+/* ==========================================================
+   TABLAS DE AUTENTICACIÓN / PERFILES
+   ========================================================== */
+
+
+    /*
+    usuarios-1:1--Clientes
+        |
+        1:1
+        |
+    Administradores
+
+    en usuarios se almacena la contraseña, y en clientes y administradores datos proopios de  ello
+
+    */
+
+-- Drop dependent tables first (administradores and clientes)
+DROP TABLE IF EXISTS administradores;
+
+DROP TABLE IF EXISTS clientes;
+
+-- Drop the parent table last (usuarios)
+DROP TABLE IF EXISTS usuarios;
+CREATE TABLE IF NOT EXISTS usuarios (
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    password   VARCHAR(200) NOT NULL,
+    rol        ENUM('ADMIN','CLIENTE') NOT NULL,
+    estado     ENUM('Activo','Inactivo') DEFAULT 'Activo',
+    creado_en  DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+CREATE TABLE IF NOT EXISTS administradores (
+    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre      VARCHAR(100) NOT NULL,
+    email       VARCHAR(100) NOT NULL UNIQUE,
+    usuario_id  BIGINT NOT NULL,
+    CONSTRAINT fk_admin_usuario
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS clientes (
+    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre      VARCHAR(100) NOT NULL,
+    email       VARCHAR(100) NOT NULL UNIQUE,
+    usuario_id  BIGINT NOT NULL,
+    CONSTRAINT fk_cliente_usuario
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
     );
 
 /* Comprobaciones rápidas */
