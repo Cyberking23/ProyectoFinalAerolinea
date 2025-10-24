@@ -1,33 +1,44 @@
-HELP.md
+# ============================
+# Java / Spring Boot / Maven
+# ============================
+
+# Carpetas de build
 target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+out/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Archivos de logs
+*.log
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+# Configuraciones del sistema operativo
+.DS_Store
+Thumbs.db
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+# Configuraciones de IDEs
+.idea/
 .vscode/
+*.iml
+*.class
+
+# Archivos temporales de Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Archivos del entorno
+*.env
+
+# ============================
+# Docker
+# ============================
+# Evita subir volúmenes o builds locales
+**/db_data/
+*.pid
+
+# ============================
+# Otros
+# ============================
+# Node (por si usas algún front integrado)
+node_modules/
+
+# Archivos de backup o temporales
+*~
