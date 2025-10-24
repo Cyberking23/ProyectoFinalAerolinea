@@ -25,7 +25,6 @@
         <a th:href="@{/Reclamo}" class="hover:text-blue-600">Reclamos</a>
     </nav>
 
-
     <a href="#" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full font-semibold">
         Reservar
     </a>
@@ -36,70 +35,109 @@
 
     <!-- 🔸 Formulario de viajeros -->
     <section class="flex-1 space-y-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">Registro de Viajeros</h1>
+        <p class="text-gray-600 mb-6">Complete la información de todos los pasajeros para el vuelo</p>
 
-        <!-- Ejemplo de bloque de viajero -->
-        <div class="border border-gray-300 rounded-md p-5 bg-white shadow-sm">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="font-semibold text-gray-700 flex items-center">
-                    <span class="text-xl mr-2">👤</span> Viajero 1:
-                </h2>
-                <button class="text-red-500 hover:text-red-700 text-sm font-medium">✖</button>
+        <form id="form-pasajeros" th:action="@{/guardarPasajeros}" method="post">
+            <input type="hidden" name="vueloId" th:value="${vuelo.id}">
+            <input type="hidden" name="pasajerosData" id="pasajerosData">
+
+            <div id="viajeros-container">
+                <!-- Viajero 1 (inicial) -->
+                <div class="border border-gray-300 rounded-md p-5 bg-white shadow-sm viajero-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="font-semibold text-gray-700 flex items-center">
+                            <span class="text-xl mr-2">👤</span> Viajero 1:
+                        </h2>
+                        <button type="button"
+                                class="text-red-500 hover:text-red-700 text-sm font-medium eliminar-viajero"
+                                style="display: none;">✖
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-600 text-sm mb-1">Nombres (obligatorio)</label>
+                            <input type="text" name="nombre" placeholder="Ej. Juan Carlos"
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                   required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 text-sm mb-1">Apellidos (obligatorio)</label>
+                            <input type="text" name="apellido" placeholder="Ej. Ramírez López"
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                   required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 text-sm mb-1">Fecha de nacimiento</label>
+                            <input type="date" name="fechaNacimiento"
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                   required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 text-sm mb-1">Número de pasaporte</label>
+                            <input type="text" name="numeroPasaporte" placeholder="Ej. A1234567"
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                   required>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-gray-600 text-sm mb-1">Correo electrónico</label>
+                            <input type="email" name="correoElectronico" placeholder="Ej. juan@example.com"
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                   required>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <form class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-gray-600 text-sm mb-1">Nombres (obligatorio)</label>
-                    <input type="text" placeholder="Ej. Juan Carlos" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                </div>
-                <div>
-                    <label class="block text-gray-600 text-sm mb-1">Apellidos (obligatorio)</label>
-                    <input type="text" placeholder="Ej. Ramírez López" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                </div>
-                <div>
-                    <label class="block text-gray-600 text-sm mb-1">Fecha de nacimiento</label>
-                    <input type="date" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                </div>
-                <div>
-                    <label class="block text-gray-600 text-sm mb-1">Número de pasaporte</label>
-                    <input type="text" placeholder="Ej. A1234567" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                </div>
-            </form>
-        </div>
-
-        <!-- 🔁 Aquí podrías iterar más viajeros -->
-        <!--
-        <div th:each="viajero, iterStat : ${viajeros}" class="border border-gray-300 rounded-md p-5 bg-white shadow-sm">
-          <h2 th:text="'Viajero ' + ${iterStat.index + 1} + ':'" class="font-semibold text-gray-700 mb-4"></h2>
-          ...
-        </div>
-        -->
-
-        <button class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-full font-semibold mt-3">
-            Añadir +
-        </button>
+            <button type="button" id="anadir-viajero"
+                    class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-full font-semibold mt-3 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                          d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                          clip-rule="evenodd"/>
+                </svg>
+                Añadir otro viajero
+            </button>
+        </form>
     </section>
 
     <!-- 🔸 Resumen del viaje -->
     <aside class="w-1/3 bg-white border border-gray-300 rounded-md p-5 shadow-sm h-fit">
-        <h2 class="font-semibold text-gray-700 mb-3">Viaje ida</h2>
+        <h2 class="font-semibold text-gray-700 mb-3">Resumen del Viaje</h2>
         <div class="border border-gray-200 rounded-md p-3 mb-4">
-            <p class="text-gray-700 font-medium">El Salvador → Los Ángeles</p>
-            <p class="text-sm text-gray-500">15 de Abril de 2026, 6:19 a.m.</p>
+            <p class="text-gray-700 font-medium" th:text="${vuelo.origen} + ' → ' + ${vuelo.destino}">El Salvador → Los
+                Ángeles</p>
+            <p class="text-sm text-gray-500" th:text="${vuelo.fechaSalida} + ', '">15 de Abril de
+                2026, 6:19 a.m.</p>
         </div>
 
         <div class="mb-3">
-            <p class="text-gray-700 font-medium">Tarifa</p>
+            <p class="text-gray-700 font-medium">Tarifa por pasajero</p>
+            <!-- Agregar un data attribute con el valor numérico real -->
+            <p class="text-lg font-bold text-green-600" id="tarifa-individual"
+               th:data-tarifa-real="${vuelo.tarifa}"
+               th:text="'$' + ${#numbers.formatDecimal(vuelo.tarifa, 1, 2)}">$345,00</p>
             <p class="text-sm text-gray-500">Clase: <span class="font-semibold">Primera Clase</span></p>
-            <p class="text-sm text-gray-500">2 adultos + 1 niño</p>
+            <p class="text-sm text-gray-500" th:text="${avion.capacidad} + ' asientos disponibles'">2 adultos + 1
+                niño</p>
+        </div>
+
+        <div class="mb-4">
+            <p class="text-gray-700 font-medium">Viajeros registrados</p>
+            <div id="resumen-viajeros" class="mt-2">
+                <p class="text-sm text-gray-500">1 viajero</p>
+            </div>
         </div>
 
         <div class="border-t border-gray-200 pt-3">
             <p class="text-gray-700 font-medium">Costo total</p>
-            <p class="text-lg font-bold text-gray-900">USD 1,451.54</p>
+            <p class="text-lg font-bold text-gray-900" id="costo-total">USD 345,00</p>
         </div>
 
-        <button class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-full font-semibold mt-5">
-            Siguiente
+        <button type="button" id="btn-continuar-pago"
+                class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-full font-semibold mt-5">
+            Continuar con el pago
         </button>
     </aside>
 </main>
@@ -148,5 +186,178 @@
         </div>
     </div>
 </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const viajerosContainer = document.getElementById('viajeros-container');
+        const anadirViajeroBtn = document.getElementById('anadir-viajero');
+        const resumenViajeros = document.getElementById('resumen-viajeros');
+        const btnContinuarPago = document.getElementById('btn-continuar-pago');
+        const formPasajeros = document.getElementById('form-pasajeros');
+        const inputPasajerosData = document.getElementById('pasajerosData');
+        const costoTotalElement = document.getElementById('costo-total');
+
+        let viajeroCount = 1;
+
+        // Obtener el precio REAL del vuelo desde el data attribute (sin formato)
+        const tarifaIndividualElement = document.getElementById('tarifa-individual');
+        const tarifaIndividual = parseFloat(tarifaIndividualElement.getAttribute('data-tarifa-real'));
+
+        // Función para formatear moneda (con coma como separador decimal)
+        function formatearMoneda(monto) {
+            return 'USD ' + monto.toLocaleString('es-ES', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        // Calcular y actualizar costo total
+        function actualizarCostoTotal() {
+            const totalViajeros = document.querySelectorAll('.viajero-card').length;
+            const costoTotal = tarifaIndividual * totalViajeros;
+            costoTotalElement.textContent = formatearMoneda(costoTotal);
+        }
+
+        // Mostrar botón de eliminar en el primer viajero después de agregar otro
+        function actualizarBotonesEliminar() {
+            const viajeros = document.querySelectorAll('.viajero-card');
+            if (viajeros.length > 1) {
+                viajeros.forEach(viajero => {
+                    viajero.querySelector('.eliminar-viajero').style.display = 'block';
+                });
+            } else {
+                viajeros[0].querySelector('.eliminar-viajero').style.display = 'none';
+            }
+        }
+
+        // Actualizar resumen de viajeros
+        function actualizarResumenViajeros() {
+            const totalViajeros = document.querySelectorAll('.viajero-card').length;
+            resumenViajeros.innerHTML = `<p class="text-sm text-gray-500">${totalViajeros} viajero(s)</p>`;
+        }
+
+        // Recopilar datos de todos los pasajeros
+        function recopilarDatosPasajeros() {
+            const viajeros = document.querySelectorAll('.viajero-card');
+            const pasajerosData = [];
+
+            viajeros.forEach((viajero, index) => {
+                const inputs = viajero.querySelectorAll('input');
+                const pasajero = {
+                    nombre: inputs[0].value,
+                    apellido: inputs[1].value,
+                    fechaNacimiento: inputs[2].value,
+                    numeroPasaporte: inputs[3].value,
+                    correoElectronico: inputs[4].value
+                };
+                pasajerosData.push(pasajero);
+            });
+
+            return pasajerosData;
+        }
+
+        // Validar formulario
+        function validarFormulario() {
+            const viajeros = document.querySelectorAll('.viajero-card');
+            let isValid = true;
+
+            viajeros.forEach((viajero, index) => {
+                const inputs = viajero.querySelectorAll('input[required]');
+                inputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        input.classList.add('border-red-500');
+                    } else {
+                        input.classList.remove('border-red-500');
+                    }
+                });
+            });
+
+            return isValid;
+        }
+
+        // Añadir nuevo viajero
+        anadirViajeroBtn.addEventListener('click', function () {
+            viajeroCount++;
+
+            const nuevoViajero = document.createElement('div');
+            nuevoViajero.className = 'border border-gray-300 rounded-md p-5 bg-white shadow-sm viajero-card mt-4';
+            nuevoViajero.innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-semibold text-gray-700 flex items-center">
+                        <span class="text-xl mr-2">👤</span> Viajero ${viajeroCount}:
+                    </h2>
+                    <button type="button" class="text-red-500 hover:text-red-700 text-sm font-medium eliminar-viajero">✖</button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-600 text-sm mb-1">Nombres (obligatorio)</label>
+                        <input type="text" name="nombre" placeholder="Ej. Juan Carlos" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-600 text-sm mb-1">Apellidos (obligatorio)</label>
+                        <input type="text" name="apellido" placeholder="Ej. Ramírez López" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-600 text-sm mb-1">Fecha de nacimiento</label>
+                        <input type="date" name="fechaNacimiento" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-600 text-sm mb-1">Número de pasaporte</label>
+                        <input type="text" name="numeroPasaporte" placeholder="Ej. A1234567" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-gray-600 text-sm mb-1">Correo electrónico</label>
+                        <input type="email" name="correoElectronico" placeholder="Ej. juan@example.com" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+                </div>
+            `;
+
+            viajerosContainer.appendChild(nuevoViajero);
+            actualizarBotonesEliminar();
+            actualizarResumenViajeros();
+            actualizarCostoTotal(); // Actualizar costo total al añadir viajero
+        });
+
+        // Eliminar viajero
+        viajerosContainer.addEventListener('click', function (e) {
+            if (e.target.classList.contains('eliminar-viajero')) {
+                const viajeroCard = e.target.closest('.viajero-card');
+                viajeroCard.remove();
+
+                // Reorganizar números de viajeros
+                const viajeros = document.querySelectorAll('.viajero-card');
+                viajeros.forEach((viajero, index) => {
+                    viajero.querySelector('h2').innerHTML = `<span class="text-xl mr-2">👤</span> Viajero ${index + 1}:`;
+                });
+
+                viajeroCount = viajeros.length;
+                actualizarBotonesEliminar();
+                actualizarResumenViajeros();
+                actualizarCostoTotal(); // Actualizar costo total al eliminar viajero
+            }
+        });
+
+        // Enviar formulario
+        btnContinuarPago.addEventListener('click', function () {
+            // Validar formularios
+            if (!validarFormulario()) {
+                alert('Por favor, complete todos los campos obligatorios.');
+                return;
+            }
+
+            // Recopilar datos y enviar
+            const pasajerosData = recopilarDatosPasajeros();
+            inputPasajerosData.value = JSON.stringify(pasajerosData);
+            formPasajeros.submit();
+        });
+
+        // Inicializar estado
+        actualizarBotonesEliminar();
+        actualizarResumenViajeros();
+        actualizarCostoTotal(); // Inicializar costo total al cargar la página
+    });
+</script>
 </body>
 </html>

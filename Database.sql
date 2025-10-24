@@ -115,9 +115,6 @@ USE vuelosdb;
 
     */
 
--- Drop dependent tables first (administradores and clientes)
-DROP TABLE IF EXISTS administradores;
-
 DROP TABLE IF EXISTS clientes;
 
 -- Drop the parent table last (usuarios)
@@ -130,15 +127,6 @@ CREATE TABLE IF NOT EXISTS usuarios (
     creado_en  DATETIME DEFAULT CURRENT_TIMESTAMP
     );
 
-CREATE TABLE IF NOT EXISTS administradores (
-    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
-    nombre      VARCHAR(100) NOT NULL,
-    email       VARCHAR(100) NOT NULL UNIQUE,
-    usuario_id  BIGINT NOT NULL,
-    CONSTRAINT fk_admin_usuario
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
-    );
-
 CREATE TABLE IF NOT EXISTS clientes (
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre      VARCHAR(100) NOT NULL,
@@ -148,6 +136,18 @@ CREATE TABLE IF NOT EXISTS clientes (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
     );
 
-/* Comprobaciones rápidas */
-SELECT * FROM aerolineas;
-SELECT * FROM aviones;
+DROP TABLE IF EXISTS pasajeros;
+
+CREATE TABLE IF NOT EXISTS pasajeros (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    fecha_nacimiento DATE NOT NULL,
+    numero_pasaporte VARCHAR(50) NOT NULL,
+    correo_electronico VARCHAR(150) NOT NULL,
+    registrado_por INT NOT NULL,
+    creado_en DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+ALTER TABLE `pasajeros` CHANGE `registrado_por` `registrado_por` INT NULL;
+
+
